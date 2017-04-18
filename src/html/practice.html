@@ -23,8 +23,7 @@
 		width: 100px;
 		background-color: wheat;
 	}
-	
-	body>#parent{
+	body>#parent {
 		text-align: center;
 		margin: auto;
 	}
@@ -34,7 +33,7 @@
 		border: 1px solid black;
 		margin: 10px;
 	}
-	#parent>div a{
+	#parent>div a {
 		float: left;
 	}
 	a {
@@ -52,7 +51,6 @@
 		background-color: #aaa;
 		font-weight: bold;
 	}
-	
 	body>#table {
 		display: table;
 		text-align: center;
@@ -63,26 +61,65 @@
 		vertical-align: middle;
 		padding: 5px;
 	}
-	
 	body>#change {
 		text-align: center;
 		margin: 0 auto;
 	}
 	#change {
+		position: absolute;
 		width: 400px;
 		height: 100px;
 		background-color: antiquewhite;
 		-moz-transition: background-color 3s ease;
 		-webkit-transition: background-color 3s ease;
 		transition: background-color 3s ease;
-		
-		-moz-transition: left 5s linear , top 5s linear;
-		-webkit-transition: left 5s linear , top 5s linear;
-		transition: left 5s linear , top 5s linear;
+		-moz-transition: left 5s linear, top 5s linear;
+		-webkit-transition: left 5s linear, top 5s linear;
+		transition: left 5s linear, top 5s ease;
+	}
+		/*定义一个关键帧*/
+		@keyframes roll {
+		 0% {
+		 transform: rotate(0deg), scale(1);
+		 background-color: aquamarine;
+		}
+		 33% {
+		 transform: rotate(720deg) scale(0.1);
+		 background-color: bisque;
+		}
+		 66% {
+		 transform: rotate(1080deg) scale(4);
+		 background-color: yellow;
+		}
+		 100% {
+		 transform: rotate(0deg) scale(1);
+		 background-color: aquamarine;
+		}
 	}
 	#change:hover {
 		cursor: pointer;
 		background-color: chartreuse;
+	}
+	/*把鼠标移到垃圾箱上会呈现动画*/
+	#gb:hover {
+		animation-name: roll;
+		animation-duration: 6s;
+		animation-iteration-count: infinite;
+		-webkit-animation-name: 'roll';
+		-webkit-animation-duration: 6s;
+		-webkit-animation-iteration-count: infinite;
+	}
+	 @keyframes fisheye {
+		 from {
+		transform: scale(1);
+		}
+		 to {
+		transform: scale(1.5)
+		}
+	}
+	#cell:hover {
+		animation-name: fisheye;
+		animation-duration: 1s;
 	}
 </style>
 </head>
@@ -139,10 +176,10 @@
 </div>
 <!--displ样例： table、table-cell使得id=cell的盒子居中-->
 <div id="table">
-	<div id="cell" style="background-color: #ead; height: 100px; width: 100px;">我是内容</div>
+  <div id="cell" style="background-color: #ead; height: 100px; width: 100px;">我是内容</div>
 </div>
 <!--CSS3动画-->
-<div id="change">鼠标移上来会发生颜色渐变</div>
+<div id="change">鼠标移上来会发生颜色渐变，或者是会根据鼠标移动</div>
 <script>
 	//元素拖动事件
 	var dest = document.getElementById("dest");
