@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>我的购物车</title>
+<link href="../css/shopping.css" rel="stylesheet" type="text/css">
+<script src="../js/jquery-3.1.1.min.js"></script>
+<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+</head>
+
+<body>
+	<div class="fix"><!--只是为了好看一点-->
+		<nav><!--导航栏-->
+			<div class="title"><a href="shopping.html">图书购物</a></div>
+			<ul class="nav">
+				<li><a href="shopping.html">退出</a></li>
+				<li id="mycart"><a href="cart.html">我的购物车</a></li>
+			</ul>
+		</nav>
+	</div>
+	<div class="container"><!--是所有内容的容器-->
+		<div class="header"></div><!--顶部图片显示-->
+		<div>
+			<div style="height: 80px;"></div>
+			<div class="book"><!--以下部分就是购物车的内容了-->
+				<div id="full">
+					<div id="allbuy"><p>全部商品</p></div>
+					<table class="table">
+						<colgroup><!--用于设置表格内每一列的宽度-->
+							<col style="width: 10%;">
+							<col style="width: 30%;">
+							<col style="width: 20%;">
+							<col style="width: 10%;">
+							<col style="width: 10%;">
+							<col style="width: 10%;">
+							<col style="width: 10%;">
+						</colgroup>
+						<thead>
+							<tr>
+								<th><input type="checkbox" id="checkAll">全选</th>
+								<th>商品名称</th>
+								<th>出版社</th>
+								<th>单价</th>
+								<th>购买数量</th>
+								<th>金额</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><input type="checkbox" name="check"></td>
+								<td>Java-从入门到放弃</td>
+								<td>我家印刷的</td>
+								<td>¥<span name="price">25.5</span></td>
+								<td><input type="number" min="0" value="1" class="input_num"></td>
+								<td><span class="num_color" style="font-size: 16px">¥25.5</span></td>
+								<td><a href="#">删除</a></td>								
+							</tr>
+							<tr>
+								<td><input type="checkbox" name="check"></td>
+								<td>Java-从入门到放弃</td>
+								<td>我家印刷的，你要不要买一本啊</td>
+								<td>¥<span>25</span></td>
+								<td><input type="number" min="0" value="1" class="input_num"></td>
+								<td><span class="num_color" style="font-size: 16px">¥25</span></td>
+								<td><a href="#">删除</a></td>								
+							</tr>
+						</tbody>
+					</table>
+					<div class="account">
+						<div id="butt">结算</div>				
+						<div id="total">合计：<span class="num_color">¥0</span></div>
+						<div id="choose_num">已选商品 <span class="num_color">0</span> 件</div>
+					</div>
+				</div>
+				<div id="empty">
+					<img src="../images/cart.png">
+					<p>你的购物车是空的...快去加点什么吧</p>
+				</div>
+			</div>		
+		</div>
+	</div>
+	<footer>@Xiaolei 2017</footer>
+<script>
+	/*全选按钮*/
+	$(function() {
+		var checkAll = $("#checkAll");
+		var check = $('input[name=check]');	
+		var caculate = $('.table>tbody tr');
+		var booknum = 0.0,total = 0;
+		checkAll.click(function() {
+			if((this).checked) {
+        check.each(function() { 
+        	this.checked = true; 
+        }); 
+				caculate.each(function(){
+					var temp = parseInt($(this).children(':eq(4)').children('input[type=number]').val());
+					var tp = parseFloat($(this).children(':eq(5)').children('span').text().slice(1));
+					total += tp;
+					booknum += temp;	
+				});	
+				$('#choose_num').children().text(booknum);
+				$('#total').children().text('¥'+total);
+			}else{
+				check.each(function() { 
+        	this.checked = false; 
+        }); 
+				$('#choose_num').children().text(0);
+				$('#total').children().text('¥'+0);
+				booknum = 0.0;
+				total = 0;
+			}
+		});		
+	});
+	$(function() {
+		var $num = $('.input_num');
+		$num.change(function() {			
+			var num = $(this).val();
+			var price = parseFloat($(this).parent().prev().children().text());
+			$(this).parent().next().children().text( '¥'+num*price );
+		})
+	});
+</script>
+</body>
+</html>

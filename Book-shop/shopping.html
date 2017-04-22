@@ -1,0 +1,184 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>shopping</title>
+<link href="../css/shopping.css" rel="stylesheet">
+<script src="../js/jquery-3.1.1.min.js"></script>
+</head>
+
+<body>
+	<div class="fix"><!--只是为了好看一点-->
+			<nav><!--导航栏-->
+				<div class="title"><a href="shopping.html">图书购物</a></div>
+					<ul class="nav">
+						<li id="reg"><a>注册</a></li>
+						<li id="log"><a>登录</a></li>
+						<li><a href="shopping.html">退出</a></li>
+						<li id="mycart"><a href="cart.html">我的购物车</a></li>
+						<li></li>
+					</ul>
+			</nav>
+	</div>
+			
+	<div class="container"><!--是所有内容的容器-->
+		<div class="header"></div><!--顶部图片显示-->	
+		<div>
+			<div class="choose">
+				<ul>
+					<li id="all" class="active"><a>全部</a></li>
+					<li id="java"><a href="#java-book">java</a></li>
+					<li id="c"><a href="#c-book">C</a></li>
+				</ul>
+			</div>
+			<div class="book">
+				<div class="book-title">
+						<div class="md">商品名称</div>
+						<div class="sm">作者</div>
+						<div class="md">出版社</div>
+						<div class="sm">单价</div>
+						<div class="sm">购买数量</div>
+						<div class="sm">库存</div>
+						<div class="sm">操作</div>
+				</div>
+				<div class="java-book" id="java-book">
+					<div class="block">
+						<div class="md">java</div>
+						<div class="sm">作者</div>
+						<div class="md">出版社</div>
+						<div class="sm">单价</div>
+						<div class="sm"><input  class="input_num" type="number" min="0">本</div>
+						<div class="sm">库存</div>
+						<div class="sm">加入购物车</div>							
+					</div>
+				</div>
+				<div class="c-book" id="c-book">
+					<div class="block">
+						<div class="md">c</div>
+						<div class="sm">作者</div>
+						<div class="md">出版社</div>
+						<div class="sm">单价</div>
+						<div class="sm"><input  class="input_num" type="number" min="0">本</div>
+						<div class="sm">库存</div>
+						<div class="sm">加入购物车</div>							
+					</div>					
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--注册窗口-->
+	<div class="modal-cover fade-in" id="modal1">
+		<div class="modal" id="hide1">
+			<div class="window">
+				<h1>Sign up</h1><span class="close" id="close_1">×</span>
+				<form class="form" id="form1" action="#" onSubmit="return;">
+						<label class="form-font form-control ">USERNAME</label>
+						<input type="text" class="form-control form-input" name="name" id="name" maxlength="5"><br>
+						<label class="form-font form-control" for="password">PASSWORD</label>
+						<input type="password" class="form-control form-input" name="password" id="password" maxlength="16"><br>
+						<button type="reset" class="form-button one">重置</button>
+						<button type="button" class="form-button two" id="ok">确定</button>
+				</form>	
+			</div>
+		</div>
+		<div class="sucess" id="sucess">注册成功,<span id="time"></span>s后可以进行登录....</div>
+	</div>
+	<!--登录窗口 -->
+	<div class="modal-cover fade-in" id="modal2">
+		<div class="modal" id="hide2">
+			<div class="window">
+				<h1>Login in</h1><span class="close" id="close_2">×</span>
+				<form class="form" id="form2" action="">
+						<label class="form-font form-control ">USERNAME</label>
+						<input type="text" class="form-control form-input" name="username" id="username" maxlength="5"><br>
+						<label class="form-font form-control" for="password">PASSWORD</label>
+						<input type="password" class="form-control form-input" name="userpass" id="userpass" maxlength="16"><br>
+						<button type="reset" class="form-button one">重置</button>
+						<button type="submit" class="form-button two">登录</button>
+				</form>	
+			</div>
+		</div>
+	</div>
+	<footer>@Xiaolei 2017</footer>
+<script>
+	/*全选按钮，Java按钮，c按钮*/
+	$(function(){
+		$('#all').click(function(){
+			$(this).addClass('active');
+			$('#java').removeClass('active');
+			$('#c').removeClass('active');
+			$('#java-book').css('display','block');
+			$('#c-book').css('display','block');
+		});
+		$('#java').click(function(){
+			$(this).addClass('active');
+			$('#all').removeClass('active');
+			$('#c').removeClass('active');
+			$('#c-book').css('display','none');
+			$('#java-book').css('display','block');
+		});
+		$('#c').click(function(){
+			$(this).addClass('active');
+			$('#all').removeClass('active');
+			$('#java').removeClass('active');
+			$('#c-book').css('display','block');
+			$('#java-book').css('display','none');
+		});
+	});
+	
+	var reg = document.getElementById('reg');
+	var log = document.getElementById('log');
+	/*清空表单数据*/
+	function ClearForm(id){
+		var objId = document.getElementById(id);
+    if (objId == undefined) {
+      return;
+    }
+		for(var i=0; i<objId.elements.length; i++){
+			objId.elements[i].value = "";
+		}
+	}
+	/*登录按钮*/
+	log.onclick = function(){
+		document.getElementById('modal2').style.display = 'block';
+	}
+	/*注册按钮*/
+	reg.onclick = function(){	
+		document.getElementById('modal1').style.display = 'block';		
+	}
+	/*关闭按钮*/
+	document.getElementById('close_1').onclick = function(){
+		ClearForm('form1');
+		document.getElementById('modal1').style.display = 'none';
+	}
+	document.getElementById('close_2').onclick = function(){
+		ClearForm('form2');
+		document.getElementsByTagName('input').value = '';
+		document.getElementById('modal2').style.display = 'none';
+	}
+	/*注册成功时的跳转页面*/
+	document.getElementById('ok').onclick = function(){
+		/*隐藏注册窗口，并打开成功注册窗口*/
+		document.getElementById('hide1').style.display = 'none';
+		document.getElementById('sucess').style.display = 'block';
+		
+		document.getElementById('time').innerHTML = 3;
+		/*这里需要把time变成全局变量，不然在使用clearInterval来清除计时的时候回不起作用*/
+		window.time = setInterval(function(){				
+			var time = document.getElementById('time').innerHTML; 
+			console.log(time);
+			time--;
+			if(time>-1){
+				document.getElementById('time').innerHTML = time;		
+			}else{
+				clearInterval(window.time);
+				document.getElementById('modal1').style.display = 'none';
+				document.getElementById('hide1').style.display = 'block';
+				document.getElementById('sucess').style.display = 'none';
+			}			
+		},1000);
+	}
+</script>
+</body>
+</html>
