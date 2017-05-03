@@ -1,6 +1,9 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,17 +12,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dao.BookDao;
+import tools.BookOnCart;
+
 /**
- * Servlet implementation class ExitServlet
+ * Servlet implementation class AggregateServlet
  */
-@WebServlet("/ExitServlet")
-public class ExitServlet extends HttpServlet {
+@WebServlet("/AggregateServlet")
+public class AggregateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ExitServlet() {
+    public AggregateServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,17 +33,29 @@ public class ExitServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		request.setCharacterEncoding("GBK");
 		response.setCharacterEncoding("GBK");
 		response.setContentType("text/html");
 		
-		//获取session对象
 		HttpSession session = request.getSession();
+		
+		List<BookOnCart> cartBooks = (List<BookOnCart>) session.getAttribute("cartBooks");
+		System.out.println(cartBooks.size());
+		BookDao bd = new BookDao();
+		for(int i=0; i<cartBooks.size(); i++){
+			BookOnCart temp = cartBooks.get(i);
+			try {
+				bd.upadateBook(temp);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
 		session.removeAttribute("cartBooks");
-		session.removeAttribute("status");
-		response.sendRedirect("shopping.jsp");
 	}
 
 	/**

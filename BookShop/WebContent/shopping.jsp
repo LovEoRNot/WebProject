@@ -11,10 +11,13 @@
 <script src="js/shopping.js"></script>
 </head>
 
-<body>
+<body onload="loadBook()">
 	<div class="fix"><!--只是为了好看一点-->
 		<nav><!--导航栏-->
 			<div class="title"><a href="shopping.jsp">图书购物</a></div>
+			<c:if test="${user != null }">
+				<div class="welcome">欢迎您：${user }</div>
+			</c:if>
 			<ul class="nav">
 				<c:choose>
 					<c:when test="${status == '1' }">
@@ -65,7 +68,7 @@
 								<div class="sm">${book.author }</div>
 								<div class="md">${book.press }</div>
 								<div class="sm">${book.price }</div>
-								<div class="sm"><input  class="input_num" type="number" min="0" value="0">本</div>
+								<div class="sm"><input  class="input_num" type="number" min="0" max="${book.inventory }" value="0">本</div>
 								<div class="sm">${book.inventory }</div>
 								<div class="sm toCart">加入购物车</div>							
 							</div>
@@ -79,7 +82,7 @@
 								<div class="sm">${book.author }</div>
 								<div class="md">${book.press }</div>
 								<div class="sm">${book.price }</div>
-								<div class="sm"><input  class="input_num" type="number" min="0" value="0">本</div>
+								<div class="sm"><input  class="input_num" type="number" min="0" max="${book.inventory }" value="0">本</div>
 								<div class="sm">${book.inventory }</div>
 								<div class="sm toCart">加入购物车</div>							
 							</div>				
@@ -127,6 +130,12 @@
 	</div>
 	<footer>@Xiaolei 2017</footer>
 <script>
+	function loadBook() {
+		$.post("LoadBooks",{status : "sucess"}, function(data, status) {
+			console.log("书本被成功加载");
+		});	
+	}
+
 	/*全选按钮，Java按钮，c按钮*/
 	$(function() {
 		$('#all').click(function() {
@@ -151,7 +160,7 @@
 			$('.java-book').css('display','none');
 		});
 	});	
-	
+	//添加入购物车
 	$(function() {
 		var $cart = $(".toCart");
 		$cart.each(function() {
@@ -162,7 +171,7 @@
 					var name = $parent.children(":eq(1)").text();
 					var author = $parent.children(":eq(2)").text();
 					var press = $parent.children(":eq(3)").text();
-					var price = parseFloat($parent.children(":eq(4)").text());
+					var price = parseFloat($parent.children(":eq(4)").text()).toFixed(2);
 					var num = parseInt($parent.children(":eq(5)").children().val());
 					if(num == 0){
 						alert("你还没有选择数量！");
@@ -172,7 +181,9 @@
 								+ "&press="+press +"&price="+price + "&num="+num;
 					param = encodeURI(encodeURI(param));
 					$.post("BookCart", param, function(data, status) {
-						alert(data);
+						if(data == "sucess") {
+							alert("添加成功！");
+						}
 					});
 				} else {
 					$("#modal2").css("display","block");

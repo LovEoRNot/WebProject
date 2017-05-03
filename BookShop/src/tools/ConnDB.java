@@ -4,7 +4,7 @@ import java.sql.*;
 public class ConnDB {
 	private Connection conn = null;
 	private final String DBDRIVER = "org.gjt.mm.mysql.Driver";
-	private final String DBURL = "jdbc:mysql://localhost:3306/database1";
+	private final String DBURL = "jdbc:mysql://localhost:3306/database1?useUnicode=true&characterEncoding=utf-8&useSSL=false";
 	private final String DBUSER = "root";
 	private final String DBPASS = "0000";
 	

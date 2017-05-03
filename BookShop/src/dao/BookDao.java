@@ -23,8 +23,11 @@ public class BookDao extends BaseDao {
 			String press = rs.getString(5);
 			float price = rs.getFloat(6);
 			int inventory = rs.getInt(7);
-			Book book = new Book(id, type, name, author, press, price, inventory);
-			bookList.add(book);
+			//当库存大于0时添加到显示界面上
+			if(inventory > 0) {
+				Book book = new Book(id, type, name, author, press, price, inventory);
+				bookList.add(book);
+			}
 		}
 		rs.close();
 		

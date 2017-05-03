@@ -75,6 +75,12 @@ nav {
 	height: 40px;
 	font-family: "汉仪行楷繁体";
 }
+.welcome {
+	float: left;
+	margin-left: 40px;
+	line-height: 40px;
+	font-size: 20px;
+}
 .nav>li {
 	font-family: "汉仪良品线简";
 	font-weight: bold;
@@ -343,15 +349,37 @@ h1 {
 	font-weight: bold;
 }
 #butt {
+	float: right;
+}
+.n-button {
 	width: 100px;
+	height: 40px;;
 	font-size: 25px;
+	background-color: gray;
+	cursor: not-allowed;
+	color: white;
+	font-family: '黑体';
+	letter-spacing: 4px;
+	outline: none;
+	border: none;
 	text-align: center;
+	line-height: 40px;
+}
+.m-button {
+	width: 100px;
+	height: 40px;;
+	font-size: 25px;
 	background-color: #F86B44;
 	color: white;
 	font-family: '黑体';
-	float: right;
+	letter-spacing: 4px;
+	outline: none;
+	border: none;
+	text-align: center;
+	line-height: 40px;
+	
 }
-#butt:hover {
+.m-button:hover {
 	cursor: pointer;
 	background-color: #F74E0D;
 }

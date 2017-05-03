@@ -68,6 +68,7 @@ public class LoginServlet extends HttpServlet {
 			out.print("unvalid");
 		}else{
 			session.setAttribute("status", "1");
+			session.setAttribute("user", username);
 			out.print("valid");
 		}
 		out.close();
