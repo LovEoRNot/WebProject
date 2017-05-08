@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			#menu {
+				width: 200px;
+				height: 100px;
+				float: left;
+				border: 1px solid yellow;
+			}
+			#cart {
+				width: 200px;
+				height: 100px;
+				margin-left: 20px;
+				float: left;
+				border: 1px solid red;
+			}
+			.list {
+				width: 50px;
+				height: 50px;
+				border: 1px solid black;
+				margin: 5px;
+				float: left;
+			}
+			#myDiv {
+
+			}
+		</style>
+	</head>
+	<body>
+		<div id="menu">
+			<div id="list1"  class="list" draggable="true">list1</div>
+			<div id="list2" class="list" draggable="true">list2</div>
+			<div id="list3" class="list" draggable="true">list3</div>
+		</div>
+		<div id="cart"></div>
+		<div id="myDiv" style="				
+				position: absolute;
+				top: 150px;
+				left: 0;
+				width: 100px;
+				height: 100px;
+				background: greenyellow;"></div>
+		<script>
+			/*拖放事件，相关事件
+			 * 要使目标可以拖动，需要设置draggable="true"
+			 * 被拖动的元素上
+			 * dragstrat：按下鼠标开始移动鼠标时，被拖放的元素触发dragStart事件
+			 * drag：触发dragstart后随即触发drag事件，而且在拖动期间一直会触发此事件
+			 * dragend:当拖动停止时触发
+			 * 放置的效目标上
+			 * dragenter:只要有元素放置在目标上就会触发
+			 * dragover:被拖动的元素还在目标的范围内移动时就会持续触发此事件
+			 * dragleave或drop:如果元素放置到了目标中则触发此事件
+			 * dataTransfer对象
+			 * 此对象主要有两个方法：setData(),getData()
+			 * setData()的第一个参数和getData()的第一个参数相同，是一个字符串，表示保存的数据类型，取值为Text和url
+			 * 第二个参数即为保存的数据
+			 * */
+			//开始拖放，dragStart，然后使用setData设置参数，第一个字符串表示
+			var dragElemnt = function(event) {
+				event.dataTransfer.setData("Text", event.target.id);
+			}
+			//如果要让元素可以接受放置目标，则需要阻止事件的默认行为
+			function drageOver(event) {
+				event.preventDefault();
+			}
+			function drop(event) {
+				event.preventDefault();
+				var data = event.dataTransfer.getData("Text");
+				event.target.appendChild(document.getElementById(data));
+			}
+			
+			//使用事件代理
+			document.addEventListener("dragstart", function(event) {
+				if(event.target.id == "list1" || event.target.id == "list2" || event.target.id == "list3") {	
+					event.dataTransfer.setData("Text", event.target.id);					
+				}
+			});
+			document.addEventListener("dragover", function(event) {
+				if(event.target.id == "menu" || event.target.id == "cart") {
+					event.preventDefault();
+				}
+			});
+			document.addEventListener("drop", function() {
+				if(event.target.id == "menu" || event.target.id == "cart") {
+					event.preventDefault();
+					var data = event.dataTransfer.getData("Text");
+					event.target.appendChild(document.getElementById(data));
+				}
+			});
+//			var list = document.getElementsByClassName("list");
+//			for(var i=0; i<list.length; i++) {
+//				list.eq(i).ondragstart = dragElemnt(event);
+//			}
+			
+			var book = {
+				"title" : "Professional JavaScript",
+				"authors" : [
+					"Nicholas C. Zakas"
+				],
+				edition : 3,
+				year : 2011,
+				releaseDate : new Date(2011, 11, 1)
+			}
+			var jsonText = JSON.stringify(book);
+			//console.log(jsonText);
+			var bookCopy = JSON.parse(jsonText, function(key, value) {
+				if(key == "releaseDate") {
+					return new Date(value);
+				} else {
+					return value;
+				}
+			});
+			//console.log(bookCopy.releaseDate.getFullYear());
+					
+			setTimeout(function() {
+				var myDiv = document.getElementById("myDiv");
+				left = parseInt(myDiv.style.left) + 5;
+				myDiv.style.left = left + "px";
+
+				if(left < 1080) {
+					setTimeout(arguments.callee, 50);
+				}
+			}, 50)
+		</script>
+	</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>test</title>
+		<style type="text/css">
+			#mydiv {
+				background-color: blue;
+				width: 100px;
+				height: 150px;
+			}
+			.parent {
+				float: left;
+				position: relative;
+				left: 50%;			
+			}
+			.wrap {
+				position: relative;
+				left: -50%;
+				color:yellow
+   				/*background: #ccc;*/
+			}
+			.content {
+				text-align: center;
+			}
+			.mid {
+				color: red;
+				display: inline;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="mydiv" style="background-color: red; border: 1px solid black;"></div>
+		
+		<div id="div">
+			<p><b>hello</b>world</p>
+			<ul>
+				<li>List item 1</li>
+				<li>List item 2</li>
+				<li>List item 3</li>
+			</ul>			
+		</div>
+		<!--不定宽块级元素居中-->
+		<div class="parent">
+			<div class="wrap">我要居中</div>
+		</div>
+		<div class="content">
+			<div class="mid">我也要居中</div>
+		</div>
+		<!--
+        	作者：1094253525@qq.com
+        	时间：2017-05-04
+        	描述：上下文菜单
+        -->
+		<div id="click" style="background: pink; width: 100px; height: 100px; "></div>
+		<ul id="menu" style="position: absolute; visibility: hidden;">
+			<li><a href="http://www.baidu.com">haha</a></li>
+			<li>heeh</li>
+			<li>pipip</li>
+		</ul>
+		
+		<!--
+        	作者：1094253525@qq.com
+        	时间：2017-05-04
+        	描述：表单提交
+        -->
+		<form action="" method="post" id="form1">
+			<input id="move" list="list" /><br />
+			<input id="text" name="text1" maxlength="4"/>-
+			<input id="text2" type="text" name="text2" maxlength="11"/><br />
+			<input type="submit" name="submit" value="点我"/>
+		</form>
+		<input id="" list="list" /><br />
+		<datalist id="list">
+			<option value="hello">hello</option>
+			<option value="你好">你好</option>
+			<option value="goodMorning">goodMorning</option>
+		</datalist>
+		
+		<select size="3" multiple="multiple" id="select">
+			<option>第一</option>
+			<option>第二</option>
+			<option>第三</option>
+		</select>
+		
+		<!--
+        	作者：1094253525@qq.com
+        	时间：2017-05-04
+        	描述：富文本编辑
+        -->
+        <div id="rich" style="width: 200px; height: 200px; border: 1px solid #3193D0;">nihaoa,卧槽</div>
+        <iframe name="richedit" src="richedit.html" width="400" height="200"></iframe>
+        <button id="change">斜体</button>
+        
+        
+        
+		<script type="text/javascript">
+			var mydiv = document.getElementById("mydiv");
+			var computedStyle = document.defaultView.getComputedStyle(mydiv, null);
+//			console.log(computedStyle.backgroundColor);
+//			console.log(computedStyle.width);
+//			console.log(computedStyle.height);
+//			console.log(computedStyle.border);
+			
+			//使用NodeIterate，使用createNodeIterator创建实例
+			//遍历一个元素中的所有节点并输出标签名称
+			var div = document.getElementById("div");
+			//只遍历li元素
+			var filter = function(node) {
+				return node.tagName.toLowerCase() == "li" ? 
+					NodeFilter.FILTER_ACCEPT : 
+					NodeFilter.FILTER_SKIP;
+			}
+			//                                                                  没有filter则为null，遍历所有子节点
+			var iterator = document.createNodeIterator(div, NodeFilter.SHOW_ELEMENT, filter, false);
+			var node = iterator.nextNode();
+//			while (node != null) {
+//				console.log("Iterator:" + node.tagName.toLowerCase());
+//				node = iterator.nextNode();
+//			}
+
+			//使用TreeWalker，用document.createTreeWalker()创建实例
+			var walker = document.createTreeWalker(div, NodeFilter.SHOW_ELEMENT, null, false);
+			walker.firstChild();				//转到p
+			walker.nextSibling();				//转到ul
+			var noda = walker.firstChild();		//转到第一个li
+//			while (noda != null) {
+//				console.log("TreeWalker:" + noda.tagName.toLowerCase());
+//				noda = walker.nextSibling();
+//			} 
+			
+			var input = document.getElementById("move");
+			input.addEventListener("textInput", function(event) {
+				//console.log(event.keyIdentifier);
+			})
+			
+			//实现了上下文菜单功能，即在页面中单机右键会有一个菜单出现
+			var click = document.getElementById("click");
+			click.addEventListener("contextmenu", function(event) {
+				event.preventDefault();
+				var menu = document.getElementById("menu");
+				menu.style.left = event.clientX + "px";
+				menu.style.top = event.clientY + "px";
+				menu.style.visibility = "visible";
+			});
+			document.addEventListener("click", function(event) {
+				document.getElementById("menu").style.visibility = "hidden";				
+			});
+			
+			//表单提交后禁用提交按钮
+			var form1 = document.getElementById("form1");
+			var text = form1.elements[0];
+			//在获得焦点(onfocus),单击时(onclick)时选中所有内容
+			text.onfocus = function(event) {
+				var target = event.target || event.srcElement;
+				target.select();
+			}
+			//在输入内容达到最大长度后焦点自动转换到下一个输入框，no use
+//			function tabForward () {
+//				var event = window.event;
+//				var target = event.target;
+//				if(target.value.maxLength == target.maxLength) {
+//					var form = target.form;
+//					for( var i=1, len=form.elements.length; i<len; i++) {
+//						if(form.elements[i] == target) {
+//							if(form.elements[i+1]) {
+//								form.elements[i+1].focus();
+//							}
+//							return;
+//						}
+//					}
+//				}
+//			}
+//			text.addEventListener("keyup", tabForward());
+//			document.getElementById("text2").addEventListener("keyup", tabForward());
+			form1.addEventListener("submit", function(event) {
+				alert("dianwo");
+				event.preventDefault();
+				form1.elements["submit"].disabled = true;
+			})
+			
+			//下拉列表SELECT,添加新选项
+			var select = document.getElementById("select");
+			var newOption = document.createElement("option");
+			newOption.appendChild(document.createTextNode("第四"));
+			newOption.setAttribute("value", "第四");
+			
+			var Op = new Option("第五","第五");
+			select.appendChild(newOption);
+			//select.appendChild(Op);
+			select.insertBefore(Op, select.options[1]);
+			
+			//富文本编辑
+			var rich = document.getElementById("rich");
+			rich.contentEditable = "true";
+			//document.execCommand("bold", false, null);
+//			document.designMode = "on"; //这个开启之后整个页面中的所有元素都变成可编辑的
+
+			var richEdit = frames["richedit"].document;
+			richEdit.designMode = "on";
+			document.getElementById("change").onclick = function(event) {
+				var selectText = frames["richedit"].getSelection().toString();
+				
+				//添加斜体效果
+				var rang = frames["richedit"].getSelection().getRangeAt(0);
+				var span = richEdit.createElement("span");
+				span.style.fontStyle = "italic";
+				rang.surroundContents(span);
+				alert(richEdit.body.innerHTML);
+			}
+			
+
+		</script>
+	</body>
+</html>
