@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			p {float: left; margin: 20px;}
+			canvas, div{float: left;}
+			.content {
+				margin-top: 30px;
+				margin-left: 10px;
+				font-family: "微软雅黑";
+			}
+			.head {
+				clear: right;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="head">
+			<h1 style="text-indent: 100px;">KNN算法及其图像显示</h1>
+			请输入训练元组个数：<input type="text" id="practice" value="100"/><br>
+			请输入测试元组个数：<input type="text" id="test" value="20"/><br />
+			<button type="button" id="sure">确定</button>
+		</div>	
+		<canvas id="canvas" width="400" height="400"></canvas>
+		<div class="content">
+			<p>训练元组：</p>
+			<div id="practiceArr" style="height: 450px; width: 200px;overflow: auto;"></div>
+			<p>测试元组：</p>
+			<div id="testArr" style="height: 450px; width: 150px;overflow: auto;"></div>
+			<p>KNN得出的类型:</p>
+			<div id="type" style="height: 450px; width: 40px;overflow: auto;"></div>
+		</div>
+		<div style="clear: both; "></div>
+		<div style="width: 1000px; margin-left: 500px;">
+			<p style="text-indent: 2em; font-size: 25px;"> 
+				训练元组和测试元组都是使用Math.random()函数随机生成的，类型也是事先固定的,<br>
+				 默认类型为“1”和“-1”，取值范围是[1-4),为了便于在图像上显示我把所有数值都乘上<br>
+				了100，K值为3。这里共有<span id="pNum">0</span>个训练元组，<span id="tNum">0</span>个测试元组。
+			</p>
+		</div>
+		
+		<script type="text/javascript">
+			var canvas = document.getElementById("canvas");
+			var ctx = canvas.getContext("2d");
+			ctx.font = "bolder 14px Arial";//文字字体，大小
+			ctx.textAlign = "left"; //文本对齐方式
+			ctx.textBaseline = "middle"; //文本的基线
+			ctx.fillText("红色圆点表示训练元组中类型为：1的数据", 100, 30);
+			ctx.fillText("蓝色圆点表示训练元组中类型为：-1的数据", 100, 50);
+			ctx.fillText("黄色圆点表示测试元组", 100, 70);
+			//用来获得一组随机数据组成的训练元组,
+			//length:获得训练元组数据的个数
+			function getArr(length) {
+				var arr = new Array();
+				for(var i = 0; i < length/2; i++) {
+					var x = (Math.random() * 3 + 1).toFixed(4);
+					var y = (Math.random() * 3 + 1).toFixed(4);;
+					var t = {X: x, Y: y, type: "-1"};
+					arr.push(t);
+				}
+				for(var j = length/2; j < length; j++) {
+					var x = (Math.random() * 3 + 1).toFixed(4);;
+					var y = (Math.random() * 3 + 1).toFixed(4);;	
+					var t = {X: x, Y: y, type: "1"};
+					arr.push(t);
+				}
+				return arr;
+			}
+			
+			//计算两个点之间的距离，a训练元组，b测试元组
+			function getDistance(a, b) {
+				var distance = 0;
+				var t = (a.X - b.X) * (a.Y - b.Y);
+				distance = Math.abs(t);
+				return distance;
+			}
+			
+			//比较函数，比较两个数的大小
+			function compare(x1, x2) {
+				if(x1.D < x2.D) {
+					return -1;
+				} else if(x1.D > x2.D) {
+					return 1;
+				} else {
+					return 0;
+				}
+			}
+			
+			//执行KNN算法，根据设定的K值返回测试元组的类别
+			//a:训练元组, b:测试元组, k:设定的K值
+			function knn(a, b, k) {
+				var temp = new Array();
+				var type_b = new Array();
+				var practice = a;
+				for(var i = 0; i < b.length; i++) {
+					var tb = b[i];
+					for(var j = 0; j < practice.length; j++) {
+						var dis = getDistance(a[j], tb);
+						var _temp = {B_X: tb.X, B_Y: tb.Y,
+									 A_X: practice[j].X, A_Y: practice[j].Y, A_style: practice[j].type,
+									 D: dis};
+						temp.push(_temp);
+					}/*end of j, the inner circle*/
+					temp.sort(compare);
+					var type1 = 0 , type2 = 0;
+					for(var m = 0; m < k; m++) {
+						if(temp[m].A_style == "1") {
+							type1 ++;
+						} else {
+							type2 ++;
+						}
+					}/*end of m, the inner circle*/
+					if(type1 > type2) {
+						var testResult = {X: tb.X, Y: tb.Y, type: "1"};
+						type_b.push(testResult);
+					} else {
+						var testResult = {X: tb.X, Y: tb.Y, type: "-1"};
+						type_b.push(testResult);
+					}
+					temp.length = 0; //清空数组内容
+				}/*end of i, the outter circle*/
+				return type_b;
+			}/*end of function KNN*/
+			
+			/*获得测试元组b的数据,len为获得数据的长度*/
+			function getB(len) {
+				var bArry = new Array();
+				for(var i = 0; i < len; i++) {
+					var x = (Math.random() * 3 + 1).toFixed(4);
+					var y = (Math.random() * 3 + 1).toFixed(4);;
+					var t = {X: x, Y: y};
+					bArry.push(t);
+				}
+				return bArry;
+			};
+
+			document.getElementById("sure").onclick = function(){
+				ctx.clearRect(100, 100, 300, 300); //每点击一次就清空一次内容
+				ctx.fillStyle = "black"; 
+				ctx.fillRect(100, 100, 300, 300); //重绘背景
+				var l1 = 0, l2 = 0;
+				l1 = document.getElementById("practice").value;
+				l2 = document.getElementById("test").value;
+				/*获得训练元组arr与测试元组b的数据*/
+				var arr = getArr(l1);
+				var b = getB(l2);
+				
+				/*打印信息*/
+				var textPra = "",
+					textTes = "",
+					textTyp = "";
+					
+				/*将数据以圆点的形式显示在页面上,同时将数据显示到页面上*/
+				for(var i = 0; i < arr.length; i++) {
+					if(arr[i].type == "1") {
+						ctx.fillStyle = "red";
+						ctx.fillText("·", arr[i].X * 100, arr[i].Y * 100);
+					} else {
+						ctx.fillStyle = "blue";
+						ctx.fillText("·", arr[i].X * 100, arr[i].Y * 100);
+					}
+					textPra += arr[i].X + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + arr[i].Y + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + arr[i].type + "<br>";
+				}
+				for(var i = 0; i < b.length; i++) {
+					ctx.fillStyle = "yellow";
+					ctx.fillText("·", b[i].X * 100, b[i].Y * 100);
+					textTes += b[i].X + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + b[i].Y + "<br>";
+				}
+			
+				//执行KNN算法并获得对应的类型type，这里把K值设定为3
+				var test = knn(arr, b, 3);
+							
+				for(var i = 0; i < test.length; i++) {
+					textTyp += test[i].type + "<br>";
+				}
+				document.getElementById("practiceArr").innerHTML = textPra;
+				document.getElementById("testArr").innerHTML = textTes;
+				document.getElementById("type").innerHTML = textTyp;
+				document.getElementById("pNum").innerHTML = arr.length;
+				document.getElementById("tNum").innerHTML = b.length;
+			}
+			
+		</script>
+	</body>
+</html>
