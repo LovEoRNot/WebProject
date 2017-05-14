@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>pageTwo</title>
+		<link href="css/bootstrap.min.css" rel="stylesheet"></link>
+		<script src="js/jquery-3.1.1.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<style>
+			body {
+				background-color: gray;
+				font-family: "微软雅黑";
+				font-size: 16px;
+			}
+			header>.container {
+				margin-top: 15px;
+				width: 95%;
+				max-width: 1124px;
+			}
+			#top {
+				display: block;
+				height: 80px;
+			}
+			#banner {
+				height: 80px;
+				background-color: #722872 !important;
+				box-shadow: 0 2px 10px 4px rgba(0,0,0,0.2);
+			}
+			.nav>li {
+				display: inline-flex;
+				font-weight: bold;
+			}
+			.nav>li:hover {
+				box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+				color: darkgray;
+			}
+			/*关于我的部分*/
+			.main {
+				background-color: #eee;
+				box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.2);
+			}
+			.main header {
+				padding: 50px 30px;
+				color: red;
+			}
+			.introduce {
+				width: 700px;
+				margin: 80px 40px;
+				float: left;
+				font-size: 20px;
+			}
+			.main header img {
+				width: 250px;
+				height: auto;
+				margin: 30px 20px;
+				border-radius: 50%;
+			}
+			/*通用的*/
+			.gap {
+				border-top: lightgray solid 2px;
+			}
+			h2 {
+				text-align: center;
+			}
+			/*我的作品部分*/
+			.grid {
+				margin-top: 40px;
+				list-style: none;
+			}
+			.grid li {
+				margin: 20px;
+				display: inline-block;
+				max-width: 490px;
+			}
+			.grid li img {
+				max-width: 100%;				
+			}
+			/*联系我部分*/
+			#contact>div>div {
+				margin: 30px;
+				display: inline-block;
+				width: 490px;			
+				vertical-align: top;
+			}
+			form {
+				margin-left: 30px;
+			}
+			.form-item {
+				margin-bottom: 30px;
+   				padding-bottom: 10px;
+				border-bottom: 1px solid gray;
+			}
+			.form-item label {
+				visibility: hidden;
+				top: 35px;
+				position: relative;
+				display: block;	
+				color: #aaa;		
+			}
+			.form-item input, .form-item textarea {
+				outline: none;
+				border: none;
+				background-color: rgba(255, 255, 255, 0);
+				font-size: 1.5em;
+				width: 100%;
+				resize: none;
+			}
+			#contact>div>div p {
+				padding-left: 40px;
+				margin-top: 80px;
+			}
+			#contact>div>div p:last-child {
+				margin-top: 270px ;
+			}
+			/*footer部分*/
+			footer {
+				text-align: center;
+			}
+			.footer-above {
+				padding: 50px 0;				
+				background-color: darkseagreen;
+				box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.2);
+			}
+			.footer-above>div {
+				color: white;
+				display: inline-block;
+				width: 250px;
+				margin-right: 50px;
+			}
+			.footer-blow {
+				text-align: center;
+				background-color: #722872;
+				box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.2);
+				padding: 20px;
+				color: white;
+				font-size: 20px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="navbar navbar-default navbar-fixed-top" id="banner">
+			<div class="container">				
+		   		<div class="navbar-header">
+		        	<a href="#top"><img src="img/cart.png" width="50" height="50"></a>
+		    	</div>
+				<div>
+					<nav id="navbar">
+						<ul class="nav navbar-nav navbar-right">
+				            <li class="active"><a href="#top">关于我</a></li>
+				            <li><a href="#portfolio">我的作品</a></li>
+				            <li ><a href="#contact" >联系我</a></li>
+				        </ul>
+					</nav>					
+				</div>				
+			</div>		
+		</header>
+		<a id="top"></a>
+		<div class="container">
+			<div class="main">				
+				<header>
+					<div class="introduce">
+						<p>这是一段文字。这是一段文字。这是一段文字。这是一段文字。这是一段文字。这是一段文字。这是一段文字。这是一段文字。这是一段文字。这是一段文字。这是一段文字。这是一段文字。这是一段文字。</p>
+					</div>
+					<img src="img/cart.png" alt="个人信息"/>
+				</header>
+				<hr class="gap">
+				<section id="portfolio">
+					<h2>我的作品</h2>
+					<ul class="grid">
+						<li><img src="img/art.jpg" alt="" /></li>
+						<li><img src="img/art.jpg" alt="" /></li>
+						<li><img src="img/art.jpg" alt="" /></li>
+						<li><img src="img/art.jpg" alt="" /></li>
+						<li><img src="img/art.jpg" alt="" /></li>
+						<li><img src="img/art.jpg" alt="" /></li>
+					</ul>
+				</section>
+				<hr class="gap">
+				<section id="contact">
+					<h2>联系我</h2>
+					<div>
+						<div>
+							<form id="contact-form">
+								<div class="form-item">
+									<label for="name">姓名</label>
+									<input id="name" type="text" placeholder="姓名">
+								</div>
+								<div class="form-item">
+									<label for="email">电子邮箱</label>
+									<input id="email" type="email" placeholder="电子邮箱">
+								</div>
+								<div class="form-item">
+									<label for="tel">联系方式</label>
+									<input id="tel" type="tel" placeholder="联系方式">
+								</div>
+								<div class="form-item">
+									<label for="message">想说的话</label>
+									<textarea id="message" placeholder="想说的话" rows="5"></textarea>
+								</div>	
+								<button type="submit">发送</button>
+							</form> 
+						</div>
+						<div>
+							<p>这是一段话。这是一段话。这是一段话。这是一段话。这是一段话。这是一段话。这是一段话。这是一段话。这是一段话。这是一段话。这是一段话。这是一段话。这是一段话。</p>
+							<p>这是一段话。这是一段话。这是一段话。这是一段话。</p>
+							<p>这是一段话。</p>
+						</div>											
+					</div>
+				</section>				
+			</div>
+		</div>
+		<footer>
+			<div class="footer-above">
+				<div>
+					<h2>what is this part?</h2>
+					<span class="glyphicon glyphicon-facetime-video"></span>
+				</div>
+				<div>
+					<h2>where can i get more?</h2>
+				</div>
+			</div>
+			<div class="footer-blow">
+				Designed by elliot
+			</div>
+		</footer>
+		<script>
+			$("#navbar li").each(function() {
+				$(this).click(function() {
+					$(this).addClass("active");
+					var href = $(this).children().attr("href");
+					var pos = $(href).offset().top;
+					$("html,body").animate({scrollTop: pos}, "2000");
+					$(this).siblings().removeClass("active");				
+				})
+			});
+			$("#contact input, textarea").keyup(function() {
+				$(this).siblings().addClass("form-item-focus");
+				$(this).siblings().animate({top: 0}, "fast").css("visibility", "visible");
+				if($(this).val().length == 0) {
+					$(this).siblings().animate({top: 30}, "fast").css("visibility", "hidden");
+				}	
+			}).focus(function() {
+				$(this).siblings().css("color", "#722872");
+			}).blur(function() {
+				$(this).siblings().css("color", "#aaa");
+			});			
+		</script>
+	</body>
+</html>
