@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zn-ch">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>网页版mp3播放器</title>
+    <link rel="stylesheet" href="./css/icon.css" />
+    <link rel="stylesheet" href="./css/player.css" />
+    <link href="https://cdn.bootcss.com/amazeui/2.7.2/css/amazeui.flat.min.css" rel="stylesheet">
+</head>
+
+<body>   
+    <div class="wrap">
+        <div class="main">
+            <div class="content">                
+                <img class="pic" alt="歌曲图片" src="./images/kugou.jpg">
+                <ul class="player">                   
+                    <li>
+                        <ul class="head">
+                            <li><marquee scrollamount="2">网页版mp3播放器</marquee></li>
+                            <li>
+                                <span class="icon prev-icon" data-change="prev" title="上一首"></span>
+                                <span class="icon start-icon" data-change="start" title="播放"></span>
+                                <span class="icon stop-icon" data-change="stop" title="暂停" style="display: none;"></span>
+                                <span class="icon next-icon" data-change="next" title="下一首"></span>
+                                <span class="icon folder-icon" data-change="folder" title="打开列表"></span>
+                            </li>
+                        </ul>                      
+                    </li>
+                    <li>
+                        <progress value="0" max="100"></progress> 
+                        <span id="currentTime">00:00</span> / <span id="totalTime">00:00</span>
+                        &nbsp;&nbsp;<i class="am-icon-volume-down am-icon-sm" id="volumn"></i>
+                        <!--volume-off volume-up-->
+                        <span id="range-wrap" style="display: none;">
+                            <input type="range" min="0" max="100" step="1" value="50">
+                        </span>
+                    </li>
+                </ul>              
+                <audio id="music" src="">
+                    抱歉，您不支持该播放器
+                </audio>
+            </div>
+            <div class="panel fadeIn" style="display: none;">
+                <ul class="album">
+                    
+                </ul>
+                <div class="oprator">添加</div>
+            </div>
+        </div>        
+    </div>
+    <script src="./js/palyer.js"></script>
+</body>
+
+</html>
